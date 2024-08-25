@@ -162,7 +162,7 @@ class LibVioSource(private val okHttpClient: OkHttpClient) : AnimationSource {
             getRequest("$playerServer?url=$data&next=$nextLink&id=$animeId&nid=${cfg["nid"]}") {
                 header("referer", "$BASE_URL/")
             }.bodyString()
-        val videoUrl = getStringVariableValue(html = playerHtml, variableName = "urls")
+        val videoUrl = getStringVariableValue(html = playerHtml, variableName = "vid")
             ?: throw RuntimeException("未获取到视频链接")
         return Resource.Success(AnimationSource.VideoUrlResult(url = videoUrl))
     }
