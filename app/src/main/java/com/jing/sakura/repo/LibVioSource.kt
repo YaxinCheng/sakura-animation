@@ -158,12 +158,12 @@ class LibVioSource(private val okHttpClient: OkHttpClient) : AnimationSource {
             playerServer = parseServerFromJs(jsContent)
             playerServerCache[playFrom] = playerServer
         }
-        val playerHtml =
-            getRequest("$playerServer?url=$data&next=$nextLink&id=$animeId&nid=${cfg["nid"]}") {
+        val playerURL = "$playerServer?url=$data&next=$nextLink&id=$animeId&nid=${cfg["nid"]}"
+        val playerHtml = getRequest(playerURL) {
                 header("referer", "$BASE_URL/")
             }.bodyString()
-        val videoUrl = getStringVariableValue(html = playerHtml, variableName = "urls")
-            ?: throw RuntimeException("未获取到视频链接")
+        val videoUrl = getStringVariableValue(html = playerHtml, variableName = "vid")
+            ?: throw RuntimeException("未获取到视频链接: $playerURL")
         return Resource.Success(AnimationSource.VideoUrlResult(url = videoUrl))
     }
 
